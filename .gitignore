@@ -18,3 +18,5 @@ playwright-report/
 tmp/
 *.pem
 *.key
+public/data/github.json
+public/data/*.tmp

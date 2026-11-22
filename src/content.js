@@ -1,7 +1,8 @@
 // Only confirmed information from the supplied brief. Replace nulls with verified CV details.
+import githubConfig from '../github.config.json';
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 export const profile = {
-  name: 'Ahmed Waleed Gad', email: 'ahmedgad1503@gmail.com', linkedin: 'https://www.linkedin.com/in/ahmed-waleed-gad', github: null,
+  name: 'Ahmed Waleed Gad', email: 'ahmedgad1503@gmail.com', linkedin: 'https://www.linkedin.com/in/ahmed-waleed-gad', github: `https://github.com/${githubConfig.username}`,
   cv: asset('Ahmed_Gad_CV.pdf'), photo: asset('images/ahmed-portrait-640.webp'),
   photoLarge: asset('images/ahmed-portrait-960.webp'),
   projects: [

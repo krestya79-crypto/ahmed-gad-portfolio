@@ -29,8 +29,12 @@ jobs:
         uses: actions/configure-pages@v6.0.0
       - name: Install dependencies
         run: npm ci
+      - name: Test public repository integration
+        run: npm test
       - name: Build production website
         run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Upload static website
         uses: actions/upload-pages-artifact@v5.0.0
         with:

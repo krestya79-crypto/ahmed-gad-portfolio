@@ -30,6 +30,20 @@ Vite's base is `/ahmed-gad-portfolio/`. Portrait and CV paths use `import.meta.e
 
 All functionality runs in the browser. There is no backend, SSR, API route, or server-side form. Email opens the visitor's mail client. Google Fonts loads externally with local sans-serif fallbacks. Project demo, source-code, and credential URLs are displayed only when supplied; missing destinations remain clearly labeled. The personal portrait uses transparent 640px and 960px WebP versions, and the Three.js scene loads as it approaches the viewport, pauses outside it, and caps pixel ratio.
 
+## GitHub project collection
+
+`github.config.json` records the GitHub username verified against the authenticated CLI and Git remote. Its ordered `featured` array accepts repository names (spaces, punctuation, and case are normalized); EcoMind and Sakina aliases are initially prioritized. `autoFeatureCategories` highlights repositories with explicit AI metadata. EcoMind remains a CV-backed case study until a matching public repository exists; Sakina links to its verified repository.
+
+`npm run build` first runs `scripts/fetch-github.mjs`. It follows every REST API pagination link, keeps owned repositories only when `private` is explicitly false and `visibility` is public, includes forks and archived repositories, and retrieves each public repository's language breakdown. It writes only an allowlist of public metadata to `public/data/github.json`. The file is generated and ignored by Git. Vite copies it to `dist/data/github.json`; the browser reads that static file under the repository base path and never calls the GitHub API or receives a token. `npm run dev` also refreshes this data; `npm run github:sync` refreshes it independently.
+
+GitHub Actions passes its short-lived built-in `GITHUB_TOKEN` only to the build step. No personal access token is required. Short API rate limits and server errors have bounded retries; long reset times, network outages, or incomplete collection retrieval produce a safe profile-link fallback. No stale repository cache is published after a failure, since a previously public repository may have become private. Previously deployed static data remains a snapshot until the next successful deployment; trigger the workflow after changing repository visibility if it needs immediate updating.
+
+Filters use topics, complete language breakdowns, and explicit AI/ML claims in repository descriptions. AI Security requires an explicit security-related AI topic, avoiding classification based on a portfolio owner's job title. Names alone never determine categories. Unknown projects are classified as Other Technologies. An empty filter is a valid state, not an invented category match. Zero stars/followers are displayed as actual zeros.
+
+Pushes to `main` regenerate the feed and deploy it automatically. Changes in other repositories appear after the next portfolio build; run the workflow manually from GitHub Actions to refresh without a code change. No scheduled task has been added.
+
+Run `npm test` for privacy, pagination, categories, missing metadata, unsafe URLs, bounded rate-limit retries, API failure, and pagination origin checks. No backend or extra dependencies are required.
+
 ## Update content
 
 Edit `src/content.js`. Facts are transcribed from the supplied Ahmed_Gad_CV.pdf and brief. No proficiency percentages or unsupported project stacks are included. Add verified GitHub, project demo, or credential URLs when available; missing URLs do not produce broken links.

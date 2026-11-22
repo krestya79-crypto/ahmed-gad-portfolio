@@ -3,6 +3,8 @@ import './portrait.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { profile } from './content.js';
+import { mountGithubShowcase } from './github-showcase.js';
+import { normalizeName } from './github-metadata.js';
 
 gsap.registerPlugin(ScrollTrigger);
 const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -28,6 +30,12 @@ document.querySelector('#app').innerHTML = `
 <footer><a class="brand" href="#home">${icon}<span>AHMED / GAD</span></a><span>© ${new Date().getFullYear()} Ahmed Waleed Gad</span><span>ENGINEERED WITH INTENTION.</span><a href="#home">Back to top +</a></footer><dialog id="detail-dialog"><button class="dialog-close" aria-label="Close details">×</button><div id="dialog-body"></div></dialog><div class="toast" role="status"></div>`;
 
 document.querySelector('#certificates-toggle')?.addEventListener('click',e=>{const b=e.currentTarget;const expanded=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!expanded));b.innerHTML=expanded?'View all credentials <span>+</span>':'Show fewer credentials <span>−</span>';document.querySelectorAll('.extra-certificate').forEach(c=>c.hidden=expanded);ScrollTrigger.refresh();});
+mountGithubShowcase({container:document.querySelector('#work'),onLayoutChange:()=>ScrollTrigger.refresh(),onRepository:repo=>{
+  const project=profile.projects.find(p=>normalizeName(p.name).replace(/ai$/,'')===normalizeName(repo.name).replace(/ai$/,''));
+  if(!project)return;project.github=repo.url;project.demo=repo.homepage;
+  const copy=document.querySelector(`.project.${project.id} .project-copy`);
+  const link=document.createElement('a');link.className='underlined';link.href=repo.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='GitHub repository';copy.appendChild(link);
+}});
 const dialog = document.querySelector('dialog');
 function openDialog(html) { document.querySelector('#dialog-body').innerHTML = html; dialog.showModal(); }
 document.querySelector('.dialog-close').onclick = ()=>dialog.close();
