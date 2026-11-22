@@ -1,0 +1,19 @@
+/* A real photographic cutout, lit by the card's midnight laboratory environment. */
+.portrait:has(.profile-photo){
+  background:radial-gradient(ellipse at 28% 35%,#1b536367,transparent 58%),radial-gradient(ellipse at 85% 65%,#164ac736,transparent 64%),linear-gradient(145deg,#102331,#07101c 80%);
+  box-shadow:inset 0 0 30px #01060c80,0 0 24px #4ec9dc0d;
+  isolation:isolate;
+}
+.portrait:has(.profile-photo)::before{
+  content:'';position:absolute;inset:0;z-index:0;opacity:.6;
+  background-image:linear-gradient(#7ce8ee09 1px,transparent 1px),linear-gradient(90deg,#7ce8ee09 1px,transparent 1px),radial-gradient(ellipse at 50% 38%,transparent 35%,#72ede820 35.5%,transparent 36%);
+  background-size:27px 27px,27px 27px,100% 100%;
+}
+.portrait .profile-photo{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 4%;filter:drop-shadow(7px 8px 8px #0008);}
+.portrait:has(.profile-photo)::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(112deg,#b8ecff0a,transparent 35%,transparent 76%,#66cbff08),linear-gradient(to top,#06101c55,transparent 28%);
+  box-shadow:inset 1px 1px 0 #c3f3ff14,inset 0 -1px 0 #7ae7ef20;
+}
+.portrait:has(.profile-photo) .scan-line{top:auto;bottom:0;animation:none;opacity:.3;z-index:3;}
+.portrait:has(.profile-photo) .portrait-corner{z-index:3;opacity:.7;}
