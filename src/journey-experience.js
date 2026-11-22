@@ -1,4 +1,4 @@
-﻿import {gsap} from 'gsap';
+import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {caseStudies,findCaseStudy} from './case-studies.js';
 import {resolveRoute} from './route-state.js';
@@ -113,4 +113,3 @@ function mountXWidget(){
   widget.innerHTML=`<button class="x-toggle" aria-expanded="false" aria-controls="x-widget-content"><span aria-hidden="true">𝕏</span><span class="x-toggle-label">Connect on X</span><span class="x-plus" aria-hidden="true">+</span></button><div class="x-widget-content" id="x-widget-content" hidden><h2>Continue the conversation.</h2>${profile?`<p>${esc(new URL(profile).pathname.replaceAll('/',''))}</p>${ext(profile,'Follow on X','button primary')}`:'<p>An X profile has not been configured yet.</p><span class="x-pending">Profile link pending</span>'}<p class="x-posts-note">${profile?'Visit the profile for posts and updates.':'No posts or follower counts are displayed.'}</p></div>`;
   widget.querySelector('button').onclick=event=>{const button=event.currentTarget,expanded=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!expanded));widget.querySelector('#x-widget-content').hidden=expanded;};document.body.append(widget);
 }
-
