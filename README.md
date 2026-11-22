@@ -44,7 +44,24 @@ Pushes to `main` regenerate the feed and deploy it automatically. Changes in oth
 
 Run `npm test` for privacy, pagination, categories, missing metadata, unsafe URLs, bounded rate-limit retries, API failure, and pagination origin checks. No backend or extra dependencies are required.
 
-## Update content
+## Projects, competitions, and case-study destinations
+
+The homepage keeps the identity, floating badge, about, skills, experience, certifications, and contact sections. Projects, Hackathons & Competitions, and Research have dedicated hash destinations:
+
+- `#/projects`: three curated case studies and the complete public GitHub collection.
+- `#/hackathons`: NASA Space Apps Challenge 2026 (solo), Green Loop (team leader), and Creativa Mansoura (team contribution).
+- `#/research`: the existing NEVERA research presentation.
+- `#/projects/nasa`, `#/projects/ecomind`, and `#/projects/sakina`: complete engineering case studies.
+
+All routes use the existing GitHub Pages repository origin and base path. Refreshes and direct links request the same static `index.html`; no backend or host rewrite is required. Older `#work`, `#github-projects`, and `#research` bookmarks remain supported. Browser back/forward and normal home section anchors are handled by `src/route-state.js` and `src/journey-experience.js`.
+
+Edit `src/case-studies.js` for curated descriptions, contributions, methods, milestones, availability, and sources. These records are independent of GitHub metadata and are never overwritten by automatic fetching. Missing model providers, screenshots, demo links, or future roadmap details remain labeled. Add verified screenshot objects (`src`, `alt`, `caption`) to a case study's `screenshots` array when available.
+
+The NASA case study uses the user-supplied counts (8,456 observations, 302 biomarkers, four participants, seven sampling time points) for the cleaned project dataset. Method visualizations are explicitly illustrative, not scientific results. The original participation certificate supplied through the LinkedIn image URL is stored unchanged at `public/images/case-studies/nasa-certificate-original.jpg`, SHA-256 `962d153322c1147964346cc2efc5118e6bc68b88817094ed2eb596c6e3ab76b9`. Its original name, Ahmed Waleed Reda Gad, recognition, date, and logos remain intact; the portfolio identity remains Ahmed Waleed Gad. The two optional original report figures come from WEDJAT-X `reports/figures/01_biomarker_trends_over_time.png` and `03_missing_data_heatmap.png`; their original bytes are preserved and they are labeled as exploratory artifacts rather than application screenshots.
+
+Set `social.config.json` → `xProfile` to a verified `https://x.com/username` or `https://twitter.com/username` URL. The compact expandable widget then displays the profile and Follow on X link. Until configured, it displays an explicit pending state. No posts, follower counts, or third-party embeds are fabricated or loaded.
+
+## Personal content
 
 Edit `src/content.js`. Facts are transcribed from the supplied Ahmed_Gad_CV.pdf and brief. No proficiency percentages or unsupported project stacks are included. Add verified GitHub, project demo, or credential URLs when available; missing URLs do not produce broken links.
 
