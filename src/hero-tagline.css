@@ -1,0 +1,24 @@
+/* Scope the new typography to the hero; its two sentences stay on two lines. */
+.hero-copy{container-type:inline-size;min-width:0}
+.hero-tagline{
+  display:grid;gap:.22em;margin:0;color:#f0f4f8;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;
+  font-size:clamp(1.125rem,3vw,3.5rem);
+  font-size:clamp(1.125rem,6.7cqi,3.5rem);
+  line-height:1.25;letter-spacing:-.055em;
+}
+.hero-tagline .tagline-line{display:block;white-space:nowrap}
+.hero-tagline .tagline-line:first-child{font-size:1.12em}
+.tagline-security,.tagline-innovation{
+  color:#8bf3ed;background-clip:text;-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.tagline-security{
+  background-image:linear-gradient(105deg,#a4fff2 4%,#55e4ef 45%,#579dff 100%);
+  filter:drop-shadow(0 0 12px #4edfe026);
+}
+.tagline-innovation{
+  color:#b6d4ff;background-image:linear-gradient(110deg,#e0edff,#91bcff);
+  filter:drop-shadow(0 0 13px #6c9fff28);
+}
+@media(forced-colors:active){.tagline-security,.tagline-innovation{background:none;-webkit-text-fill-color:CanvasText;filter:none}}
