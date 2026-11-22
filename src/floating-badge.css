@@ -1,0 +1,17 @@
+/* The existing hanger keeps its placement and resting angle. Only this inner rig sways. */
+.card-stage .hanger{transform-style:preserve-3d}
+.badge-motion{
+  --badge-strap-length:400px;
+  position:relative;width:100%;transform-style:preserve-3d;
+  transform-origin:50% calc(-1 * var(--badge-strap-length));
+}
+.badge-motion>.lanyard{height:var(--badge-strap-length)}
+.badge-motion>.id-card{transform-origin:50% 0;transform-style:preserve-3d}
+.badge-motion::after{
+  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  border-radius:16px;box-shadow:12px 22px 36px #0004;
+  opacity:var(--badge-shadow-opacity,.35);
+  transform:translate3d(var(--badge-shadow-x,0px),0,-3px);
+}
+@media(max-width:760px){.badge-motion{--badge-strap-length:120px}}
+@media(prefers-reduced-motion:reduce){.badge-motion::after{display:none}}

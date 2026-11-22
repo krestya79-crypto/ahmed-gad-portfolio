@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { profile } from './content.js';
 import { mountGithubShowcase } from './github-showcase.js';
 import { normalizeName } from './github-metadata.js';
+import { createFloatingBadge } from './floating-badge.js';
 
 gsap.registerPlugin(ScrollTrigger);
 const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -52,8 +53,8 @@ const sceneLoader = new IntersectionObserver(async entries=>{if(!entries.some(e=
 sceneLoader.observe(document.querySelector('#neural-scene'));
 document.querySelector('#network-toggle').onclick=e=>{const paused=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',String(paused));e.currentTarget.textContent=paused?'Resume motion':'Pause motion';scene?.setPaused(paused);};
 const media=gsap.matchMedia();
+const badge=createFloatingBadge(document.querySelector('.card-stage'));
 media.add('(prefers-reduced-motion: no-preference)',()=>{
-  gsap.from('.hanger',{y:-850,rotation:14,rotationY:-24,duration:2.2,ease:'elastic.out(0.7,0.45)',delay:.15});
   gsap.timeline({defaults:{duration:.9,ease:'power3.out'}})
     .from('.hero-copy .eyebrow',{y:20,opacity:0},.25)
     .from('.hero-tagline .tagline-line',{y:22,opacity:0,stagger:.18},.4)
@@ -61,10 +62,7 @@ media.add('(prefers-reduced-motion: no-preference)',()=>{
     .from('.hero-copy .hero-actions',{y:20,opacity:0},.95);
   gsap.utils.toArray('.reveal').forEach(el=>gsap.from(el,{y:32,opacity:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
 });
-const card=document.querySelector('.id-card');
-document.querySelector('.card-stage').addEventListener('pointermove',e=>{if(reduced.matches||e.pointerType==='touch')return;const r=card.getBoundingClientRect();gsap.to(card,{rotationY:(e.clientX-r.left-r.width/2)/22,rotationX:-(e.clientY-r.top-r.height/2)/28,duration:.5,ease:'power2.out'});});
-document.querySelector('.card-stage').addEventListener('pointerleave',()=>gsap.to(card,{rotationX:0,rotationY:0,duration:1,ease:'elastic.out(1,0.5)'}));
 if(matchMedia('(pointer:fine)').matches&&!reduced.matches){const cursor=document.querySelector('.cursor');window.addEventListener('pointermove',e=>{gsap.to(cursor,{x:e.clientX,y:e.clientY,duration:.15});cursor.classList.add('visible');});document.querySelectorAll('a,button,.id-card').forEach(el=>{el.addEventListener('pointerenter',()=>cursor.classList.add('active'));el.addEventListener('pointerleave',()=>cursor.classList.remove('active'));});document.querySelectorAll('.magnetic').forEach(b=>{b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.12,y:(e.clientY-r.top-r.height/2)*.15,duration:.3});});b.addEventListener('pointerleave',()=>gsap.to(b,{x:0,y:0,duration:.5}));});}
 let scrollQueued=false;window.addEventListener('scroll',()=>{if(scrollQueued)return;scrollQueued=true;requestAnimationFrame(()=>{document.querySelector('.reading-progress').style.transform=`scaleX(${scrollY/(document.documentElement.scrollHeight-innerHeight)||0})`;document.querySelector('.header').classList.toggle('scrolled',scrollY>30);scrollQueued=false;});},{passive:true});
 const sectionObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('nav a').forEach(a=>{const active=a.getAttribute('href')==='#'+e.target.id;a.classList.toggle('current',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}),{rootMargin:'-20% 0px -55% 0px'});document.querySelectorAll('main section[id]').forEach(s=>sectionObserver.observe(s));
-window.addEventListener('pagehide',()=>scene?.dispose(),{once:true});
+window.addEventListener('pagehide',event=>{scene?.dispose();if(!event.persisted)badge.dispose();},{once:true});
